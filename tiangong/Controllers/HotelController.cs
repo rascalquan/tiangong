@@ -12,24 +12,30 @@ namespace tiangong.Controllers
     public class HotelController : Controller
     {
         // GET: HotelController
-        TGContext tgContext;
-        public HotelController(TGContext context)
-        {
-            tgContext = context;
-        }
+        //TGContext tgContext;
+        //public HotelController(TGContext context)
+        //{
+        //    tgContext = context;
+        //}
         public ActionResult Index()
         {
-            var newHotel = new Hotel()
+            using (TGContext tgContext = new TGContext())
             {
-                id = 1,
-                name = "龙门客栈",
-                address = "太湖香山",
-                star = 5
-            };
-            tgContext.Add(newHotel);
-            tgContext.SaveChanges();
-            var hotel = tgContext.Hotels.FirstOrDefault(m => m.id == newHotel.id);
-            return new JsonResult(hotel);
+                var newHotel = new Hotel()
+                {
+                    id = 1,
+                    name = "龙门客栈",
+                    address = "太湖香山",
+                    star = 5,
+                    telephone = "151XXXXXXXX",
+                    createby = "admin",
+                    createtime = DateTime.Now
+                };
+                tgContext.Add(newHotel);
+                tgContext.SaveChanges();
+                var hotel = tgContext.Hotels.FirstOrDefault(m => m.id == newHotel.id);
+                return new JsonResult(hotel);
+            }
         }
 
         // GET: HotelController/Details/5
