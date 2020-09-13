@@ -26,8 +26,11 @@ namespace tiangong
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<TGContext>(builder => builder.UseMySql(Configuration["Conn:TGConn"]));
+            services.AddDbContextPool<TGContext>(options =>
+                    options.UseMySql(Configuration.GetConnectionString("TGConn"))) ;
+
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

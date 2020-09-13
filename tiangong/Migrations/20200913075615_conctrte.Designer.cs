@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tiangong.Repository;
 
 namespace tiangong.Migrations
 {
     [DbContext(typeof(TGContext))]
-    partial class TGContextModelSnapshot : ModelSnapshot
+    [Migration("20200913075615_conctrte")]
+    partial class conctrte
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

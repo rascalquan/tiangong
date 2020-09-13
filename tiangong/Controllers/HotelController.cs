@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using tiangong.Models;
 using tiangong.Repository;
 
@@ -11,100 +12,143 @@ namespace tiangong.Controllers
 {
     public class HotelController : Controller
     {
-        // GET: HotelController
-        //TGContext tgContext;
-        //public HotelController(TGContext context)
-        //{
-        //    tgContext = context;
-        //}
-        public ActionResult Index()
+        private readonly TGContext _context;
+
+        public HotelController(TGContext context)
         {
-            using (TGContext tgContext = new TGContext())
+            _context = context;
+        }
+
+        // GET: Hotel
+        public async Task<IActionResult> Index()
+        {
+            var hotels = await _context.Hotels.ToListAsync();
+            return View(hotels);
+        }
+
+        // GET: Hotel/Details/5
+        public async Task<IActionResult> Details(long? id)
+        {
+            if (id == null)
             {
-                var newHotel = new Hotel()
+                return NotFound();
+            }
+
+            var hotel = await _context.Hotels
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(hotel);
+        }
+
+        // GET: Hotel/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Hotel/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("id,name,telephone,star,address,createby,createtime,lastupdateby,lastupdatetime")] Hotel hotel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(hotel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(hotel);
+        }
+
+        // GET: Hotel/Edit/5
+        public async Task<IActionResult> Edit(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hotel = await _context.Hotels.FindAsync(id);
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+            return View(hotel);
+        }
+
+        // POST: Hotel/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(long id, [Bind("id,name,telephone,star,address,createby,createtime,lastupdateby,lastupdatetime")] Hotel hotel)
+        {
+            if (id != hotel.id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
                 {
-                    id = 1,
-                    name = "龙门客栈",
-                    address = "太湖香山",
-                    star = 5,
-                    telephone = "151XXXXXXXX",
-                    createby = "admin",
-                    createtime = DateTime.Now
-                };
-                tgContext.Add(newHotel);
-                tgContext.SaveChanges();
-                var hotel = tgContext.Hotels.FirstOrDefault(m => m.id == newHotel.id);
-                return new JsonResult(hotel);
-            }
-        }
-
-        // GET: HotelController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: HotelController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: HotelController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
+                    _context.Update(hotel);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HotelExists(hotel.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(hotel);
         }
 
-        // GET: HotelController/Edit/5
-        public ActionResult Edit(int id)
+        // GET: Hotel/Delete/5
+        public async Task<IActionResult> Delete(long? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hotel = await _context.Hotels
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (hotel == null)
+            {
+                return NotFound();
+            }
+
+            return View(hotel);
         }
 
-        // POST: HotelController/Edit/5
-        [HttpPost]
+        // POST: Hotel/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var hotel = await _context.Hotels.FindAsync(id);
+            _context.Hotels.Remove(hotel);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: HotelController/Delete/5
-        public ActionResult Delete(int id)
+        private bool HotelExists(long id)
         {
-            return View();
-        }
-
-        // POST: HotelController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return _context.Hotels.Any(e => e.id == id);
         }
     }
 }

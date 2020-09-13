@@ -9,8 +9,8 @@ using tiangong.Repository;
 namespace tiangong.Migrations
 {
     [DbContext(typeof(TGContext))]
-    [Migration("20200912003858_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200913110104_add_col_telphone")]
+    partial class add_col_telphone
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -47,11 +47,12 @@ namespace tiangong.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("telephone")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(11) CHARACTER SET utf8mb4")
+                        .HasMaxLength(11);
 
                     b.HasKey("id");
 
-                    b.ToTable("Hotels");
+                    b.ToTable("Hotel");
                 });
 #pragma warning restore 612, 618
         }

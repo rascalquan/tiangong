@@ -10,13 +10,15 @@ namespace tiangong.Repository
 {
     public class TGContext:DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public TGContext(DbContextOptions<TGContext> options)
+            :base(options)
         {
-            //IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            //optionsBuilder.UseMySql(configuration["Conn:TGConn"]);
-            base.OnConfiguring(optionsBuilder);
+            
         }
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Hotel>().ToTable("Hotel");
+        }
         public DbSet<Hotel> Hotels { get; set; }
 
     }

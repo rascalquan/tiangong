@@ -1,0 +1,68 @@
+﻿@model tiangong.Models.Hotel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Hotel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="name" class="control-label"></label>
+                <input asp-for="name" class="form-control" />
+                <span asp-validation-for="name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="telephone" class="control-label"></label>
+                <input asp-for="telephone" class="form-control" />
+                <span asp-validation-for="telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="star" class="control-label"></label>
+                <input asp-for="star" class="form-control" />
+                <span asp-validation-for="star" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="address" class="control-label"></label>
+                <input asp-for="address" class="form-control" />
+                <span asp-validation-for="address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="createby" class="control-label"></label>
+                <input asp-for="createby" class="form-control" />
+                <span asp-validation-for="createby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="createtime" class="control-label"></label>
+                <input asp-for="createtime" class="form-control" />
+                <span asp-validation-for="createtime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastupdateby" class="control-label"></label>
+                <input asp-for="lastupdateby" class="form-control" />
+                <span asp-validation-for="lastupdateby" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="lastupdatetime" class="control-label"></label>
+                <input asp-for="lastupdatetime" class="form-control" />
+                <span asp-validation-for="lastupdatetime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

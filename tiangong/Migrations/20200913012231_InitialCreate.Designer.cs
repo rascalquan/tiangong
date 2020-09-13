@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using tiangong.Repository;
 
 namespace tiangong.Migrations
 {
     [DbContext(typeof(TGContext))]
-    partial class TGContextModelSnapshot : ModelSnapshot
+    [Migration("20200913012231_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,8 +47,7 @@ namespace tiangong.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("telephone")
-                        .HasColumnType("varchar(11) CHARACTER SET utf8mb4")
-                        .HasMaxLength(11);
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("id");
 
