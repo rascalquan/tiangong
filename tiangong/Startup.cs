@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql;
 using tiangong.Repository;
 
@@ -27,9 +28,20 @@ namespace tiangong
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<TGContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("TGConn"))) ;
+                    options.UseMySql(Configuration.GetConnectionString("TGConn")));
 
             services.AddControllersWithViews();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "天宫",
+                    Version = "v1.0.0",
+                    Description = "接口文档",
+                    Contact = new OpenApiContact() { Name = "rascal" }
+                });
+            });
 
         }
 
@@ -52,6 +64,12 @@ namespace tiangong
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {
