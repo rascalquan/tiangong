@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -9,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql;
 using tiangong.Repository;
@@ -32,6 +37,22 @@ namespace tiangong
 
             services.AddControllersWithViews();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = true,//是否验证Issuer
+                        ValidateAudience = true,//是否验证Audience
+                        ValidateLifetime = true,//是否验证失效时间
+                        ClockSkew = TimeSpan.FromSeconds(30),//时钟偏差(秒)
+                        ValidateIssuerSigningKey = true,//是否验证SecurityKey
+                        ValidAudience = Configuration["JWTConfig:Issuer"],//Audience
+                        ValidIssuer = Configuration["JWTConfig:Issuer"],//Issuer，与签发jwt的设置一致
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWTConfig:SecurityKey"]))//拿到SecurityKey
+                    };
+                });
+
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
@@ -41,6 +62,8 @@ namespace tiangong
                     Description = "接口文档",
                     Contact = new OpenApiContact() { Name = "rascal" }
                 });
+                //配置接口注释
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "tiangong.xml"),true);
             });
 
         }

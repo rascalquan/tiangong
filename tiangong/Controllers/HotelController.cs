@@ -24,6 +24,8 @@ namespace tiangong.Controllers
         {
             var hotels = await _context.Hotels.ToListAsync();
             return View(hotels);
+
+            
         }
 
         // GET: Hotel/Details/5
