@@ -1,22 +1,17 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Pomelo.EntityFrameworkCore.MySql;
 using Swashbuckle.AspNetCore.Filters;
 using tiangong.Config;
 using tiangong.Extensions;
@@ -36,6 +31,12 @@ namespace tiangong
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var serviceProvider = services.BuildServiceProvider();
+
+            ILogger logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
+
+
+            //配置数据库上下文
             services.AddDbContextPool<TGContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("TGConn")));
 
@@ -43,23 +44,26 @@ namespace tiangong
 
             services.AddControllersWithViews();
 
+            //配置jwt验证
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+            .AddJwtBearer(options =>
+            {
+                var jwtConfig = Configuration.GetSection(JWTConfig.SectionName).Get<JWTConfig>();
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    var jwtConfig = Configuration.GetSection(JWTConfig.SectionName).Get<JWTConfig>();
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,//是否验证Issuer
-                        ValidateAudience = true,//是否验证Audience
-                        ValidateLifetime = true,//是否验证失效时间
-                        ClockSkew = TimeSpan.FromSeconds(30),//时钟偏差(秒)
-                        ValidateIssuerSigningKey = true,//是否验证SecurityKey
-                        ValidAudience = jwtConfig.Audience,//Audience
-                        ValidIssuer = jwtConfig.Issuer,//Issuer，与签发jwt的设置一致
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecurityKey))//拿到SecurityKey
-                    };
-                });
+                    ValidateIssuer = true,//是否验证Issuer
+                    ValidateAudience = true,//是否验证Audience
+                    ValidateLifetime = true,//是否验证失效时间
+                    ClockSkew = TimeSpan.FromSeconds(30),//时钟偏差(秒)
+                    ValidateIssuerSigningKey = true,//是否验证SecurityKey
+                    ValidAudience = jwtConfig.Audience,//Audience
+                    ValidIssuer = jwtConfig.Issuer,//Issuer，与签发jwt的设置一致
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.SecurityKey))//拿到SecurityKey
+                };
+            });
 
+
+            //配置swagger
             services.AddSwaggerGen(options =>
             {
                 //配置swagger文档基本信息
@@ -114,7 +118,9 @@ namespace tiangong
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
+            
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>

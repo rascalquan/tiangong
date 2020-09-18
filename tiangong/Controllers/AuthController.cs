@@ -53,7 +53,7 @@ namespace tiangong.Controllers
             var claims = new Claim[] {
                 new Claim(ClaimTypes.Name,"admin"),
                 new Claim(ClaimTypes.Role,"admin"),
-                new Claim(JwtRegisteredClaimNames.Email,"rascalquan@163.com"),
+                //new Claim(JwtRegisteredClaimNames.Email,"rascalquan@163.com"),
                 new Claim(JwtRegisteredClaimNames.Sub,"tiangong"),                
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecurityKey));
