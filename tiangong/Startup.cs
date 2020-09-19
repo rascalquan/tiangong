@@ -35,7 +35,7 @@ namespace tiangong
 
             ILogger logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
 
-
+            logger.LogInformation("Configureservices start");
             //配置数据库上下文
             services.AddDbContextPool<TGContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("TGConn")));
@@ -120,7 +120,7 @@ namespace tiangong
 
             app.UseAuthentication();
             app.UseAuthorization();
-            
+
 
             app.UseSwagger();
             app.UseSwaggerUI(options =>

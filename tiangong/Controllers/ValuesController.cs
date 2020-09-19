@@ -15,17 +15,18 @@ namespace tiangong.Controllers
     [Route("api/[controller]")]
     public class ValuesController : ControllerBase
     {
-        //ILogger Logger;
-        //public ValuesController(ILogger logger)
-        //{
-        //    Logger = logger;
-        //}
+        private readonly ILogger Logger;
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            Logger = logger;
+        }
+
         
         [HttpGet]
         [Route("index")]
         public ActionResult Index()
         {
-            //Logger.LogInformation("call index");
+            Logger.LogInformation("call index");
             return Ok(new List<string>() { "1", "2" });
         }
     }
