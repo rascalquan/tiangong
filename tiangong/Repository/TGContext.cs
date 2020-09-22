@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using tiangong.Models;
+using TianGong.Models;
 
-namespace tiangong.Repository
+namespace TianGong.Repository
 {
     public class TGContext:DbContext
     {

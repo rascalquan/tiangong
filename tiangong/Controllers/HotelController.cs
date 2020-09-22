@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using tiangong.Models;
-using tiangong.Repository;
+using TianGong.Models;
+using TianGong.Repository;
 
-namespace tiangong.Controllers
+namespace TianGong.Controllers
 {
     public class HotelController : Controller
     {

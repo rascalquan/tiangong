@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace tiangong.Extensions
+namespace TianGong.Extensions
 {
     public static class SwaggerExtensions
     {
@@ -29,7 +29,7 @@ namespace tiangong.Extensions
                 //配置接口注释
                 //并加入控制器注释
                 options.IncludeXmlComments(
-                    filePath: Path.Combine(AppContext.BaseDirectory, "tiangong.xml"),
+                    filePath: Path.Combine(AppContext.BaseDirectory, "TianGong.xml"),
                     includeControllerXmlComments: true
                     );
 

@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using tiangong.Models;
+using TianGong.Models;
 
-namespace tiangong.Controllers
+namespace TianGong.Controllers
 {
     public class HomeController : Controller
     {

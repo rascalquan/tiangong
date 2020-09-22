@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using tiangong.Repository;
+using TianGong.Repository;
 
-namespace tiangong.Migrations
+namespace TianGong.Migrations
 {
     [DbContext(typeof(TGContext))]
     [Migration("20200913075615_conctrte")]
@@ -19,7 +19,7 @@ namespace tiangong.Migrations
                 .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("tiangong.Models.Hotel", b =>
+            modelBuilder.Entity("TianGong.Models.Hotel", b =>
                 {
                     b.Property<long>("id")
                         .ValueGeneratedOnAdd()

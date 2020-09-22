@@ -7,7 +7,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace tiangong.Models
+namespace TianGong.Models
 {
     public class Hotel
     {

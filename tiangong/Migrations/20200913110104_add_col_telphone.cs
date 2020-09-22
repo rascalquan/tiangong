@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace tiangong.Migrations
+namespace TianGong.Migrations
 {
     public partial class add_col_telphone : Migration
     {

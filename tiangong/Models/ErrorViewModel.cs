@@ -1,6 +1,6 @@
 using System;
 
-namespace tiangong.Models
+namespace TianGong.Models
 {
     public class ErrorViewModel
     {

@@ -10,12 +10,12 @@ using Microsoft.CodeAnalysis.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using tiangong.Config;
-using tiangong.Models;
+using TianGong.Config;
+using TianGong.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace tiangong.Controllers
+namespace TianGong.Controllers
 {
     /// <summary>
     /// 授权相关接口
@@ -54,7 +54,7 @@ namespace tiangong.Controllers
                 new Claim(ClaimTypes.Name,"admin"),
                 new Claim(ClaimTypes.Role,"admin"),
                 //new Claim(JwtRegisteredClaimNames.Email,"rascalquan@163.com"),
-                new Claim(JwtRegisteredClaimNames.Sub,"tiangong"),                
+                new Claim(JwtRegisteredClaimNames.Sub,"TianGong"),                
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecurityKey));
 

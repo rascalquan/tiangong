@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using tiangong.Config;
+using TianGong.Config;
 
-namespace tiangong.Extensions
+namespace TianGong.Extensions
 {
     public static class AuthenticationExtensions
     {

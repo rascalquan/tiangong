@@ -13,11 +13,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using tiangong.Config;
-using tiangong.Extensions;
-using tiangong.Repository;
+using TianGong.Config;
+using TianGong.Extensions;
+using TianGong.Repository;
 
-namespace tiangong
+namespace TianGong
 {
     public class Startup
     {

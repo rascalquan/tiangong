@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 
-namespace tiangong.Controllers
+namespace TianGong.Controllers
 {
     [Authorize]
     [ApiController]

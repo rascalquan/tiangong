@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Threading.Tasks;
 
-namespace tiangong.Models
+namespace TianGong.Models
 {
     /// <summary>
     /// 登录模型
