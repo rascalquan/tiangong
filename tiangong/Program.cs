@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using TianGong.Server;
 
 namespace TianGong
 {
@@ -13,7 +15,9 @@ namespace TianGong
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            //new HostServer(host.Services.GetServices<ILoggerProvider>()).Start();
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

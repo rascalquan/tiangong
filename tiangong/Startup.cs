@@ -31,11 +31,11 @@ namespace TianGong
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var serviceProvider = services.BuildServiceProvider();
+            //var serviceProvider = services.BuildServiceProvider();
 
-            ILogger logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
+            //ILogger logger = serviceProvider.GetRequiredService<ILogger<Startup>>();
 
-            logger.LogInformation("Configureservices start");
+            //logger.LogInformation("Configureservices start");
             //配置数据库上下文
             services.AddDbContextPool<TGContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("TGConn")));
